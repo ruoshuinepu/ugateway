@@ -58,10 +58,15 @@ public class NioServer {
                                     System.out.println(body);
                                     String response = new Date(System.currentTimeMillis()).toString();
                                     dowrite(sc,response);
+                                }else {
+                                    selectionKey.cancel();
+                                    sc.close();
                                 }
                             }
                             if(selectionKey.isWritable()){
-
+                                SocketChannel sc = (SocketChannel) selectionKey.channel();
+                                ByteBuffer buffer = ByteBuffer.allocate(1024);
+                                sc.write(buffer);
                             }
                         }
                     }

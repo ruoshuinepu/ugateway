@@ -8,8 +8,12 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>ugateway-component</artifactId>
+    <artifactId>components</artifactId>
+    <name>ugateway-component</name>
     <packaging>pom</packaging>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
     <modules>
         <module>service</module>
     </modules>
