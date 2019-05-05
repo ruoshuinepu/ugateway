@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans  xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-4.1.xsd">
+
+    <bean id="genericObjectPoolConfig" class="org.apache.commons.pool2.impl.GenericObjectPoolConfig">
+        <property name="maxWaitMillis" value="${redis.maxWaitMillis}" />
+        <property name="maxTotal" value="${redis.maxTotal}" />
+        <property name="minIdle" value="${redis.maxWaitMillis}" />
+        <property name="testOnBorrow" value="${redis.testOnBorrow}" />
+    </bean>
+    <bean id="jedisCluster" class="redis.clients.jedis.JedisCluster">
+        <constructor-arg index="0">
+            <set>
+                <bean class="redis.clients.jedis.HostAndPort">
+                    <constructor-arg type="java.lang.String" value="${redis.host1}"/>
+                    <constructor-arg type="int" value="${redis.port1}"/>
+                </bean>
+                <bean class="redis.clients.jedis.HostAndPort">
+                    <constructor-arg type="java.lang.String" value="${redis.host2}"/>
+                    <constructor-arg type="int" value="${redis.port2}"/>
+                </bean>
+                <bean class="redis.clients.jedis.HostAndPort">
+                    <constructor-arg type="java.lang.String" value="${redis.host3}"/>
+                    <constructor-arg type="int" value="${redis.port3}"/>
+                </bean>
+            </set>
+        </constructor-arg>
+        <constructor-arg index="1" value="15000" type="int"/>
+        <constructor-arg index="2" ref="genericObjectPoolConfig"/>
+    </bean>
+    <bean id="commonCacheServiceImpl" class="com.unilife.base.db.redis.CommonCacheServiceImpl"/>
+</beans>

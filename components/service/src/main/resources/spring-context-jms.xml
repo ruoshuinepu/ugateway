@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:jms="http://www.springframework.org/schema/jms"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    	http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/jms
+	    http://www.springframework.org/schema/jms/spring-jms-4.0.xsd">
+    <bean  id="qmConnectionFactory" class="org.springframework.jms.connection.CachingConnectionFactory">
+        <property name="targetConnectionFactory" >
+            <bean class="org.apache.activemq.ActiveMQConnectionFactory">
+                <property name="brokerURL" value="${jms.active.brokerUrl}"/>
+            </bean>
+
+        </property>
+        <property name="sessionCacheSize" value="10"/>
+        <property name="reconnectOnException" value="true"/>
+    </bean>
+    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="qmConnectionFactory"/>
+        <property name="pubSubDomain" value="false"/>
+    </bean>
+
+    <bean id="jmsSender" class="com.unilife.commons.jms.JmsSender">
+        <constructor-arg index="0" ref="jmsTemplate"/>
+        <constructor-arg index="1" value="${jms.dest.p2p_dataPush}"/>
+    </bean>
+
+</beans>

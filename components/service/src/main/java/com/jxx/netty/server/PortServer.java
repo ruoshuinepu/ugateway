@@ -8,7 +8,11 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
+@Component
+@Scope("prototype")
 public class PortServer {
 
     private Logger logger = LoggerFactory.getLogger(PortServer.class);
@@ -23,10 +27,12 @@ public class PortServer {
         ServerBootstrap bosp = new ServerBootstrap();
         try {
             bosp.group(boss,worker).channel(NioServerSocketChannel.class).childHandler(initialier);
+            logger.info((new StringBuilder()).append("socket server started at port ").append(port).append('.').toString());
+
             //同步等待绑定完成
             ChannelFuture future = bosp.bind(port).sync();
             //同步等待关闭
-            future.channel().close().sync();
+            future.channel().closeFuture().sync();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -37,4 +43,7 @@ public class PortServer {
 
     }
 
+    public void setPort(int port) {
+        this.port = port;
+    }
 }
