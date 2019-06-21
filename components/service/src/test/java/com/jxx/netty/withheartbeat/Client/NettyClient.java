@@ -14,7 +14,7 @@ public class NettyClient {
         Bootstrap bootstrap = new Bootstrap();
         try {
             bootstrap.group(boss).channel(NioSocketChannel.class).handler(new ClientChannelInitializer());
-            ChannelFuture future = bootstrap.connect("127.0.0.1",12000).sync();
+            ChannelFuture future = bootstrap.connect("oservice-prod-in.xcook-aws.com",8001).sync();
             future.channel().closeFuture().sync();
         } catch (InterruptedException e) {
             e.printStackTrace();

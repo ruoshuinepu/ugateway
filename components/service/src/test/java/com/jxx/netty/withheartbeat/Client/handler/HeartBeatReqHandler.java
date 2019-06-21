@@ -6,10 +6,10 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.CharsetUtil;
 
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 public class HeartBeatReqHandler extends ChannelInboundHandlerAdapter {
+
     private volatile ScheduledFuture<?> heartBeat;
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
